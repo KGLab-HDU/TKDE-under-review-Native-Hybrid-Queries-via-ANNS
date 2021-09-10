@@ -85,6 +85,24 @@ inline void load_result_data(char *filename, std::vector<std::vector<unsigned>> 
   }
 }
 
+void SplitString(const std::string &s, std::vector<std::string> &v, const std::string &c)
+{
+    std::string::size_type pos1, pos2;
+    pos2 = s.find(c);
+    pos1 = 0;
+
+    while (std::string::npos != pos2)
+    {
+        v.push_back(s.substr(pos1, pos2 - pos1).c_str());
+
+        pos1 = pos2 + c.size();
+        pos2 = s.find(c, pos1);
+    }
+    if (pos1 != s.length())
+        v.push_back(s.substr(pos1).c_str());
+}
+
+
 void SplitString(const std::string &s, std::vector<int> &v, const std::string &c)
 {
   std::string::size_type pos1, pos2;
@@ -102,7 +120,7 @@ void SplitString(const std::string &s, std::vector<int> &v, const std::string &c
     v.push_back(atoi(s.substr(pos1).c_str()));
 }
 
-void load_data_txt(char *filename, unsigned &num, unsigned &dim, std::vector<std::vector<int>> &data)
+void load_data_txt(char *filename, unsigned &num, unsigned &dim, std::vector<std::vector<std::string>> &data)
 {
   std::string temp;
   std::ifstream file(filename);
@@ -153,8 +171,8 @@ int main(int argc, char **argv)
 
   char *label_data_path = argv[4];
   char *label_query_path = argv[5];
-  std::vector<std::vector<int>> label_data;
-  std::vector<std::vector<int>> label_query;
+  std::vector<std::vector<std::string>> label_data;
+  std::vector<std::vector<std::string>> label_query;
   unsigned label_num, label_dim;
   unsigned label_query_num, label_query_dim;
   load_data_txt(label_data_path, label_num, label_dim, label_data);

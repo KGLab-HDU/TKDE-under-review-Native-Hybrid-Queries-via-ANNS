@@ -1,0 +1,1 @@
+cd ./NHQ-NPG_kgraph&&mkdir build&&cd build&&cmake ..&&make&&cd ..&&cd ..&&cd ./NHQ-NPG_nsw&&make&&cd examples/cpp&&make&&cd ..&&cd ..&&cd ..&&cd ./NPG_kgraph&&mkdir build&&cd build&&cmake ..&&make&&cd ..&&cd ..&&cd ./NPG_nsw/n2&&make&&cd examples/cpp&&make&&cd ..&&cd ..&&cd ..&&cd ..

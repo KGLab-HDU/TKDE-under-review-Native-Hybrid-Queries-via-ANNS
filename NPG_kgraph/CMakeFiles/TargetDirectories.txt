@@ -1,0 +1,14 @@
+/home/tdlab/my_anns/DNG_TOGG/CMakeFiles/rebuild_cache.dir
+/home/tdlab/my_anns/DNG_TOGG/CMakeFiles/edit_cache.dir
+/home/tdlab/my_anns/DNG_TOGG/src/CMakeFiles/rebuild_cache.dir
+/home/tdlab/my_anns/DNG_TOGG/src/CMakeFiles/edit_cache.dir
+/home/tdlab/my_anns/DNG_TOGG/src/CMakeFiles/efanna2e.dir
+/home/tdlab/my_anns/DNG_TOGG/src/CMakeFiles/efanna2e_s.dir
+/home/tdlab/my_anns/DNG_TOGG/tests/CMakeFiles/rebuild_cache.dir
+/home/tdlab/my_anns/DNG_TOGG/tests/CMakeFiles/edit_cache.dir
+/home/tdlab/my_anns/DNG_TOGG/tests/CMakeFiles/test_dng_optimized_search.dir
+/home/tdlab/my_anns/DNG_TOGG/tests/CMakeFiles/test_dng_index.dir
+/home/tdlab/my_anns/DNG_TOGG/tests/CMakeFiles/evaluate.dir
+/home/tdlab/my_anns/DNG_TOGG/tests/CMakeFiles/test_nndescent_refine.dir
+/home/tdlab/my_anns/DNG_TOGG/tests/CMakeFiles/test_kdtree_graph.dir
+/home/tdlab/my_anns/DNG_TOGG/tests/CMakeFiles/test_faiss_graph.dir

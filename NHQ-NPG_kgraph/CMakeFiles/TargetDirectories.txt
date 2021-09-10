@@ -1,0 +1,14 @@
+/home/zjlab/ANNS/llw/NANG1/CMakeFiles/rebuild_cache.dir
+/home/zjlab/ANNS/llw/NANG1/CMakeFiles/edit_cache.dir
+/home/zjlab/ANNS/llw/NANG1/src/CMakeFiles/rebuild_cache.dir
+/home/zjlab/ANNS/llw/NANG1/src/CMakeFiles/efanna2e.dir
+/home/zjlab/ANNS/llw/NANG1/src/CMakeFiles/edit_cache.dir
+/home/zjlab/ANNS/llw/NANG1/src/CMakeFiles/efanna2e_s.dir
+/home/zjlab/ANNS/llw/NANG1/tests/CMakeFiles/rebuild_cache.dir
+/home/zjlab/ANNS/llw/NANG1/tests/CMakeFiles/test_dng_optimized_search.dir
+/home/zjlab/ANNS/llw/NANG1/tests/CMakeFiles/edit_cache.dir
+/home/zjlab/ANNS/llw/NANG1/tests/CMakeFiles/test_nndescent_refine.dir
+/home/zjlab/ANNS/llw/NANG1/tests/CMakeFiles/test_dng_index.dir
+/home/zjlab/ANNS/llw/NANG1/tests/CMakeFiles/test_kdtree_graph.dir
+/home/zjlab/ANNS/llw/NANG1/tests/CMakeFiles/evaluate.dir
+/home/zjlab/ANNS/llw/NANG1/tests/CMakeFiles/refine_parameter.dir

@@ -17,10 +17,7 @@
 #include <memory>
 #include <string>
 #include <iostream>
-<<<<<<< HEAD
-=======
 
->>>>>>> 1f0c8bb2bbd5998e9ecc19fcff0badfc25141990
 #include "common.h"
 
 #include "hnsw_node.h"

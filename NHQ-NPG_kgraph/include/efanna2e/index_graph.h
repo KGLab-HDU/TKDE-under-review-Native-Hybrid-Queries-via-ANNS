@@ -76,7 +76,6 @@ namespace efanna2e
         int size = final_graph_[i].size();
         for (int j = 0; j < size; ++j)
         {
-          // 第j个近邻的id
           int flag = 1;
           int id = final_graph_[i][j];
           summ++;

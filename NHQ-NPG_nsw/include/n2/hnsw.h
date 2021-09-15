@@ -120,70 +120,6 @@ namespace n2
         int SearchByVector_nang(const std::vector<float> &qvec, std::vector<std::string> attributes, size_t k, int ef_search,
                                 std::vector<int> &result);
         int SearchByVector_new(const std::vector<float> &qvec, std::vector<char> attribute, size_t k, int ef_search, std::vector<std::pair<int, float>> &result);
-        void why()
-        {
-            int sum = 0;
-            int summ = 0;
-            int sum1 = 0;
-            int sum2 = 0;
-            int sum3 = 0;
-            int sum4 = 0;
-            int sum5 = 0;
-            int sum6 = 0;
-            int sum7 = 0;
-            for (int i = 0; i < num_nodes_; i++)
-            {
-                char *level_offset = model_level0_ + i * memory_per_node_level0_;
-                char *data = level_offset + sizeof(int);
-                int size = *((int *)data);
-                int tsum = 0;
-                for (int j = 1; j <= size; ++j)
-                {
-                    // 第j个近邻的id
-                    int flag = 1;
-                    int tnum = *((int *)(data + j * sizeof(int)));
-                    summ++;
-                    for (int k = 0; k < attribute_number_; k++)
-                    {
-                        if (*((int *)(model_level0_ + i * memory_per_node_level0_ + memory_per_link_level0_ + data_dim_ * sizeof(float) + k * sizeof(int))) != *((int *)(model_level0_ + tnum * memory_per_node_level0_ + memory_per_link_level0_ + data_dim_ * sizeof(float) + k * sizeof(int))))
-                        {
-                            flag = 0;
-                            break;
-                        }
-                    }
-                    if (flag)
-                    {
-                        tsum++;
-                        sum++;
-                    }
-                }
-                float percent = (float)tsum / size;
-                //看看友邻
-                if (percent == 0)
-                {
-                    std::cout << "节点" << i << " ";
-                    for (int k = 0; k < attribute_number_; k++)
-                    {
-                        std::cout << attributes_code[k][*((int *)(model_level0_ + i * memory_per_node_level0_ + memory_per_link_level0_ + data_dim_ * sizeof(float) + k * sizeof(int)))] << " ";
-                    }
-                    std::cout << std::endl
-                              << "友邻：";
-                    for (int j = 1; j <= size; ++j)
-                    {
-                        // 第j个近邻的id
-                        int flag = 1;
-                        int tnum = *((int *)(data + j * sizeof(int)));
-                        summ++;
-                        for (int k = 0; k < attribute_number_; k++)
-                        {
-                            std::cout << attributes_code[k][*((int *)(model_level0_ + tnum * memory_per_node_level0_ + memory_per_link_level0_ + data_dim_ * sizeof(float) + k * sizeof(int)))] << " ";
-                        }
-                        std::cout << "|";
-                    }
-                    std::cout << std::endl;
-                }
-            }
-        };
         void statistic()
         {
             int sum = 0;
@@ -215,7 +151,6 @@ namespace n2
                 int tsum = 0;
                 for (int j = 1; j <= size; ++j)
                 {
-                    // 第j个近邻的id
                     int flag = 1;
                     int tnum = *((int *)(data + j * sizeof(int)));
                     summ++;
@@ -361,7 +296,6 @@ namespace n2
             return ptr + sizeof(T);
         }
 
-        //llw
         std::vector<char> Attribute2int(std::vector<std::string> str);
         void MakeSearchResult(size_t k, IdDistancePairMinHeap &candidates, IdDistancePairMinHeap &visited_nodes, std::vector<int> &result);
 
@@ -389,50 +323,29 @@ namespace n2
         std::default_random_engine *default_rng_ = nullptr;
         std::mt19937 rng_;
 
-        // 当前结构中的最大层
         int maxlevel_ = 0;
-        //属性个数
         int attribute_number_ = 3;
-        // 查询的开始节点
         HnswNode *enterpoint_ = nullptr;
         int enterpoint_id_ = 0;
-        // 所有向量的集合
         std::vector<Data> data_;
-        // 所有的节点属性的集合
         std::map<int, std::vector<char>> attributes_;
-        //属性每一维的id-属性
         std::vector<std::vector<std::string>> attributes_code;
-        // 所有属性id的数量
         //int all_id_number_;
-        //存放所有id-属性
         //std::map<int,std::vector<std::string>> id_attribute_;
-        //当前插入点/查询点的所有属性
         //std::map<int,std::vector<std::string>> node_attributes_;
-        // 所有节点的集合
         std::vector<HnswNode *> nodes_;
-        //所有的节点数
         int num_nodes_ = 0;
         DistanceKind metric_;
-        // 整个模型的起始地址
         char *model_ = nullptr;
-        // 整个模型所需要的内存
         long long model_byte_size_ = 0;
-        // 1层的开始地址   llw
         //char* model_higher_level_ = nullptr;
-        // 0层的开始地址
         char *model_level0_ = nullptr;
-        // 向量维度
         size_t data_dim_ = 0;
-        // 节点向量所占的内存
         long long memory_per_data_ = 0;
-        // 0层中单个节点的所有邻居所占的内存+邻居数所占的内存+offset所占的内存
         long long memory_per_link_level0_ = 0;
-        // 0层中单个节点的所有邻居所占的内存+邻居数所占的内存+offset所占的内存+属性id所占的内存+该节点向量所占的内存
         long long memory_per_node_level0_ = 0;
-        //long long memory_per_higher_level_ = 0;    llw
-        // 除了0层,每层中每个节点所有邻居所占的内存
-        //long long memory_per_node_higher_level_ = 0;    llw
-        //long long higher_level_offset_ = 0;     llw
+        //long long memory_per_node_higher_level_ = 0;
+        //long long higher_level_offset_ = 0;
         long long level0_offset_ = 0;
 
         Mmap *model_mmap_ = nullptr;

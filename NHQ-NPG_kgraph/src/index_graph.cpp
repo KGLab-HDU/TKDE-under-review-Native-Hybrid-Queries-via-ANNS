@@ -1331,7 +1331,7 @@ namespace efanna2e
       else
         ++k;
     }
-    // for (size_t i = 0; i < L; i++) {  //重置候选集中的点为未访问
+    // for (size_t i = 0; i < L; i++) {  
     //   retset[i].flag = true;
     // }
     k = 0;
@@ -1404,7 +1404,7 @@ namespace efanna2e
     std::vector<char> attribute = Attribute2int(attributes);
     if (attribute.size() != attribute_number_)
     {
-      std::cout << "错误的属性";
+      std::cout << "wrong attributes";
       return;
     }
     unsigned L = parameters.Get<unsigned>("L_search");
@@ -1520,7 +1520,7 @@ namespace efanna2e
       else
         ++k;
     }
-    // for (size_t i = 0; i < L; i++) {  //重置候选集中的点为未访问
+    // for (size_t i = 0; i < L; i++) {  
     //   retset[i].flag = true;
     // }
     k = 0;

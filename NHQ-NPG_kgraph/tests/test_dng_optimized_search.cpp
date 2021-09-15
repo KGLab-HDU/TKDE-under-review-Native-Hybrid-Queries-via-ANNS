@@ -20,7 +20,7 @@ void save_result(char *filename, std::vector<std::vector<unsigned>> &results)
 }
 
 void load_result_data(char *filename, unsigned *&data, unsigned &num, unsigned &dim)
-{ // 载入ground_truth.ivecs
+{ 
   std::ifstream in(filename, std::ios::binary);
   if (!in.is_open())
   {
@@ -114,7 +114,7 @@ void load_data_txt(char *filename, unsigned &num, unsigned &dim, std::vector<std
     SplitString(temp, data[groundtruth_count], " ");
     groundtruth_count++;
   }
-  std::cout << "读入" << data.size() << "条数据" << std::endl;
+  std::cout << "load " << data.size() << " data" << std::endl;
   file.close();
 }
 

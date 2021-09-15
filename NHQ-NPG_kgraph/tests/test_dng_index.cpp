@@ -83,7 +83,7 @@ void load_data_txt(char *filename, unsigned &num, unsigned &dim, std::vector<std
     SplitString(temp, data[groundtruth_count], " ");
     groundtruth_count++;
   }
-  std::cout << "读入" << data.size() << "条数据" << std::endl;
+  std::cout << "load " << data.size() << " data" << std::endl;
   file.close();
 }
 

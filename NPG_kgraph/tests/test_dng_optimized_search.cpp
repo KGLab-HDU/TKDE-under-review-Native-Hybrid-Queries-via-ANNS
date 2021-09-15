@@ -53,7 +53,7 @@ void peak_memory_footprint()
 }
 
 inline void load_result_data(char *filename, std::vector<std::vector<unsigned>> &res, unsigned &num, unsigned &dim)
-{ // 载入ground_truth.ivecs
+{ 
   unsigned *data = nullptr;
   std::ifstream in(filename, std::ios::binary);
   if (!in.is_open())
@@ -123,7 +123,7 @@ void load_data_txt(char *filename, unsigned &num, unsigned &dim, std::vector<std
     SplitString(temp, data[groundtruth_count], " ");
     groundtruth_count++;
   }
-  std::cout << "读入" << data.size() << "条数据" << std::endl;
+  std::cout << "load " << data.size() << " data" << std::endl;
   file.close();
 }
 

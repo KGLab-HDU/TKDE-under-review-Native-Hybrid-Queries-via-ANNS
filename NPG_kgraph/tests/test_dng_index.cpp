@@ -1,7 +1,4 @@
-//
-// Created by 付聪 on 2017/6/21.
-//Modified by WMZ on 2020/6/6
-//
+
 
 #include <efanna2e/index_graph.h>
 #include <efanna2e/index_random.h>
@@ -42,15 +39,15 @@ int main(int argc, char **argv)
   unsigned points_num, dim;
   efanna2e::load_data(argv[1], data_load, points_num, dim);
   char *graph_filename = argv[2];
-  unsigned K = (unsigned)atoi(argv[3]);                         //开始构建的K近邻图, [50, 500], 间隔10
-  unsigned L = (unsigned)atoi(argv[4]);                         //控制nn-descent的邻居集尺寸，不能小于K
-  unsigned iter = (unsigned)atoi(argv[5]);                      //nn-descent迭代次数，[1, 20]，间隔 1
-  unsigned S = (unsigned)atoi(argv[6]);                         //控制nn-descent 候选集尺寸
-  unsigned R = (unsigned)atoi(argv[7]);                         //控制nn-descent反向邻居集的尺寸
-  unsigned RANGE = (unsigned)atoi(argv[8]);                     //最终构建图的最大度数
-  unsigned PL = (unsigned)atoi(argv[9]);                        //控制最后选边时候选集的大小
-  float B = (float)atof(argv[10]);                              //控制加入选边候选集的邻居比例以及邻居的邻居比例，(0, 1]，间隔0.1
-  float M = (float)atof(argv[11]);                              //选边参数，(0, 2]，间隔 0.1
+  unsigned K = (unsigned)atoi(argv[3]);                         
+  unsigned L = (unsigned)atoi(argv[4]);                        
+  unsigned iter = (unsigned)atoi(argv[5]);                      
+  unsigned S = (unsigned)atoi(argv[6]);                         
+  unsigned R = (unsigned)atoi(argv[7]);                        
+  unsigned RANGE = (unsigned)atoi(argv[8]);                     
+  unsigned PL = (unsigned)atoi(argv[9]);                        
+  float B = (float)atof(argv[10]);                             
+  float M = (float)atof(argv[11]);                            
   data_load = efanna2e::data_align(data_load, points_num, dim); //one must align the data before build
 
   efanna2e::IndexRandom init_index(dim, points_num);

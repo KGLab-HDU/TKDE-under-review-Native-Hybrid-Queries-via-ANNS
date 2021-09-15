@@ -42,8 +42,7 @@ namespace n2
     using std::unique_lock;
     using std::unordered_set;
     using std::vector;
-
-    // 访问过的节点列表
+    
     thread_local VisitedList *visited_list_ = nullptr;
 
     Hnsw::Hnsw()
@@ -237,7 +236,6 @@ namespace n2
             if (model_)
                 delete[] model_;
         }
-        //删除所有节点
         for (size_t i = 0; i < nodes_.size(); ++i)
         {
             delete nodes_[i];
@@ -264,7 +262,6 @@ namespace n2
         }
     }
 
-    //初始化各项参数
     void Hnsw::SetConfigs(const vector<pair<string, string>> &configs)
     {
         bool is_levelmult_set = false;
@@ -290,7 +287,6 @@ namespace n2
             {
                 levelmult_ = stof(c.second);
                 is_levelmult_set = true;
-                //选择返回结果的选择方式
             }
             else if (c.first == "NeighborSelecting")
             {
@@ -365,7 +361,6 @@ namespace n2
             levelmult_ = 1 / log(1.0 * M_);
         }
     }
-    //初始化随机数生成器(用于决定元素存在的最高层)
     int Hnsw::DrawLevel(bool use_default_rng)
     {
         double r = use_default_rng ? uniform_distribution_(*default_rng_) : uniform_distribution_(rng_);
@@ -386,10 +381,8 @@ namespace n2
             num_threads_ = n_threads;
         levelmult_ = mult > 0 ? mult : 1 / log(1.0 * M_);
 
-        //释放原来的选择规则
         if (selecting_policy_cls_)
             delete selecting_policy_cls_;
-        //初始化选择规则
         if (neighbor_selecting == NeighborSelectingPolicy::HEURISTIC)
         {
             selecting_policy_cls_ = new HeuristicNeighborSelectingPolicies(false);
@@ -414,7 +407,6 @@ namespace n2
     {
         if (data_.size() == 0)
             throw std::runtime_error("[Error] No data to fit. Load data first.");
-        //随机数生成器（用于决定元素存在的最高层）
         // if (default_rng_ == nullptr)
         //     default_rng_ = new std::default_random_engine(100);
         rng_.seed(rng_seed_);
@@ -432,74 +424,23 @@ namespace n2
             nodes_backup.clear();
         }
 
-        // 打印节点信息
-        //for (int i = 0; i < nodes_.size(); i++)
-        //{
-        //    std::cout << "节点" << nodes_[i]->id_ << "的向量为：";
-        //    for (int j = 0; j < nodes_[i]->GetData().size(); j++)
-        //    {
-        //        std::cout << nodes_[i]->GetData()[j] << " ";
-        //    }
-        //    std::cout << endl;
-        //    std::cout << "节点" << nodes_[i]->id_ << "的属性个数为：" << nodes_[i]->attributes_number_ << endl;
-        //    std::cout << "节点" << nodes_[i]->id_ << "的属性类别个数为：" << nodes_[i]->attributes_id_.size() << endl;
-        //    std::cout << "所有的属性为：";
-        //    for (int k = 0; k < id_attribute_.size(); k++)
-        //    {
-        //        std::cout << k << "-";
-        //        for (int j = 0; j < id_attribute_[k].size(); j++)
-        //        {
-        //            std::cout << id_attribute_[k][j] << ",";
-        //        }
-        //        std::cout << "     ";
-        //    }
-        //    std::cout << endl;
-        //    for (int k = 0; k < nodes_[i]->attributes_id_.size(); k++)
-        //    {
-        //        if (nodes_[i]->GetFriends(nodes_[i]->attributes_id_[k]).size() == 0)
-        //        {
-        //            std::cout << "节点" << nodes_[i]->id_ << "在" << nodes_[i]->attributes_id_[k] << "层的朋友节点为0" << endl;
-        //        }
-        //        else
-        //        {
-        //            std::cout << "节点" << nodes_[i]->id_ << "属性id为" << nodes_[i]->attributes_id_[k] << "的所有朋友节点为：";
-        //            for (int j = 0; j < nodes_[i]->GetFriends(nodes_[i]->attributes_id_[k]).size(); j++)
-        //            {
-        //                std::cout << nodes_[i]->GetFriends(nodes_[i]->attributes_id_[k])[j]->GetId() << " ";
-        //            }
-        //        }
-        //    }
-        //    std::cout << endl
-        //              << endl;
-        //}
         enterpoint_id_ = enterpoint_->GetId();
-        // 所有的节点数
         num_nodes_ = nodes_.size();
-        // 15个参数的内存大小
         long long model_config_size = GetModelConfigSize();
-        // 节点向量所占的内存
         memory_per_data_ = sizeof(float) * data_dim_ + sizeof(char) * attribute_number_;
-        // offset所占的内存+邻居数所占的内存+0层中单个节点的所有邻居所占的内存
         memory_per_link_level0_ = sizeof(int) * (1 + MaxM_); // 1" for saving num_links
-        // offset所占的内存+邻居数所占的内存+0层中单个节点的所有邻居所占的内存+该节点向量所占的内存
         memory_per_node_level0_ = memory_per_link_level0_ + memory_per_data_;
-        // 0层所占的内存
         long long level0_size = memory_per_node_level0_ * data_.size();
 
-        // 整个模型所需要的内存
         model_byte_size_ = model_config_size + level0_size;
-        // 初始化模型的内存空间
         model_ = new char[model_byte_size_];
         if (model_ == NULL)
         {
             throw std::runtime_error("[Error] Fail to allocate memory for optimised index (size: " + to_string(model_byte_size_ / (1024 * 1024)) + " MBytes)");
         }
-        // 从地址model_开始设置模型的内存，内存大小为model_byte_size_
         memset(model_, 0, model_byte_size_);
-        // 0层的开始地址
         model_level0_ = model_ + model_config_size;
 
-        // 地址model_开始，依次存入15个参数
         SaveModelConfig(model_);
         int higher_offset = 0;
         for (size_t i = 0; i < nodes_.size(); ++i)
@@ -517,21 +458,14 @@ namespace n2
 
     void Hnsw::BuildGraph(bool reverse)
     {
-        // 初始化节点集合
         nodes_.resize(data_.size());
         //std::cout << "nodes_.size:" << nodes_.size() << endl;
-        // 随机生成节点所在的成
         // int level = DrawLevel(use_default_rng_);
-        //当前节点的所有属性
         //AllNodeAttributes(attributes_[0]);
-        // 生成第一个节点
         HnswNode *first = new HnswNode(0, &(data_[0]), attribute_number_, attributes_[0], MaxM_);
 
-        // 将第一个节点存入节点集合
         nodes_[0] = first;
-        // 当前最大层
         // maxlevel_ = level;
-        // 进点
         enterpoint_ = first;
         if (reverse)
         {
@@ -544,7 +478,6 @@ namespace n2
                 {
                     // level = DrawLevel(use_default_rng_);
                     HnswNode *qnode = new HnswNode(i, &(data_[i]), attribute_number_, attributes_[i], MaxM_);
-                    // 生成该节点的所有属性
                     nodes_[i] = qnode;
                     Insert(qnode);
                 }
@@ -554,31 +487,14 @@ namespace n2
         }
         else
         {
-            // 设置代码快的并行线程
 #pragma omp parallel num_threads(num_threads_)
             {
-                // 初始化访问过的点集
                 visited_list_ = new VisitedList(data_.size());
 #pragma omp for schedule(dynamic, 128)
                 for (size_t i = 1; i < data_.size(); ++i)
                 {
-                    //if ((i + 1) % 100 == 0)
-                    //{
-                    //    std::cout << "第" << i + 1 << "个元素" << endl;
-                    //}
-                    //if (i >= 1000000)
-                    //{
-                    //    std::cout << "第" << i + 1 << "个元素" << endl;
-                    //}
-
-                    // std::cout<<"第"<<i<<"个元素"<<endl;
-                    // 随机生成节点的层数
-                    // level = DrawLevel(use_default_rng_);
                     HnswNode *qnode = new HnswNode(i, &(data_[i]), attribute_number_, attributes_[i], MaxM_);
-                    // 生成该节点的所有属性
-                    // 将插入点存入节点集
                     nodes_[i] = qnode;
-                    // 插入元素
                     Insert(qnode);
                 }
                 delete visited_list_;
@@ -591,27 +507,20 @@ namespace n2
 
     void Hnsw::Insert(HnswNode *qnode)
     {
-        // 插入点的最高层
         // int cur_level = qnode->GetLevel();
         unique_lock<mutex> *lock = nullptr;
         // if (cur_level > maxlevel_) lock = new unique_lock<mutex>(max_level_guard_);//还不懂
-        // 当前最大层数
         // int maxlevel_copy = maxlevel_;
-        // 进入点
         HnswNode *enterpoint = enterpoint_;
-        // 插入点的向量(用于计算向量之间的距离)
         const std::vector<float> &qvec = qnode->GetData();
-        // 插入点向量的起始地址
         const float *qraw = &qvec[0];
         float PORTABLE_ALIGN32 TmpRes[8];
 
         _mm_prefetch(&selecting_policy_cls_, _MM_HINT_T0);
 
         priority_queue<FurtherFirst> temp_res;
-        // 查找i层中的离插入点最进的efConstruction_个节点，结果存放在temp_res中
         SearchAtLayer(qvec, enterpoint, efConstruction_, temp_res, qnode);
         selecting_policy_cls_->Select(M_, temp_res, data_dim_, dist_cls_);
-        // 添加插入点和离插入点最经的efConstruction_个节点的双向链接
         while (temp_res.size() > 0)
         {
             auto *top_node = temp_res.top().GetNode();
@@ -633,11 +542,9 @@ namespace n2
         // TODO: check Node 12bytes => 8bytes
         _mm_prefetch(&dist_cls_, _MM_HINT_T0);
         float PORTABLE_ALIGN32 TmpRes[8];
-        // 插入点的向量的地址(用于计算向量之间的距离)
         const float *qraw = &qvec[0];
 
         priority_queue<CloserFirst> candidates;
-        // 进点和插入点的距离
         float d = dist_cls_->Evaluate(qraw, (float *)&(enterpoint->GetData()[0]), data_dim_, TmpRes);
         float d2 = 0;
         for (int i = 0; i < attribute_number_; i++)
@@ -655,31 +562,23 @@ namespace n2
 
         visited_list_->Reset();
         unsigned int mark = visited_list_->GetVisitMark();
-        // 内存大小为data_.size()*sizeof(unsigned int)
         unsigned int *visited = visited_list_->GetVisited();
-        // mark=1表示已经访问
         visited[enterpoint->GetId()] = mark;
 
         while (!candidates.empty())
         {
-            // 候选列表中离插入节点最近的CloserFirst<节点，距离>
             const CloserFirst &cand = candidates.top();
-            // 返回结果列表中离插入元素最远的节点的距离
             float lowerbound = result.top().GetDistance();
             if (cand.GetDistance() > lowerbound)
                 break;
-            // 候选列表中离插入节点最近的节点
             HnswNode *cand_node = cand.GetNode();
             unique_lock<mutex> lock(cand_node->access_guard_);
-            // 得到候选列表中离插入节点最近的节点的所有朋友节点
             const vector<HnswNode *> &neighbors = cand_node->friends_;
-            // 候选列表中踢出离插入节点最进的节点
             candidates.pop();
             for (size_t j = 0; j < neighbors.size(); ++j)
             {
                 _mm_prefetch((char *)&(neighbors[j]->GetData()), _MM_HINT_T0);
             }
-            // 遍历所有朋友节点
             for (size_t j = 0; j < neighbors.size(); ++j)
             {
                 int fid = neighbors[j]->GetId();
@@ -702,7 +601,6 @@ namespace n2
                     {
                         result.emplace(neighbors[j], d);
                         candidates.emplace(neighbors[j], d);
-                        // 当结果列表大于邻居数ef时，踢出最远的节点
                         if (result.size() > ef)
                             result.pop();
                     }
@@ -716,17 +614,14 @@ namespace n2
         std::unique_lock<std::mutex> lock(source->access_guard_);
         std::vector<HnswNode *> &neighbors = source->friends_;
         neighbors.push_back(target);
-        // 节点source在level层的邻居数是否越界
         bool shrink = neighbors.size() > source->maxsize_;
         if (!shrink)
             return;
         float PORTABLE_ALIGN32 TmpRes[8];
-        //删除邻居中距离最远的有节点
         if (is_naive)
         {
             float max = dist_cls_->Evaluate((float *)&source->GetData()[0], (float *)&neighbors[0]->GetData()[0], dim, TmpRes);
             int maxi = 0;
-            // 查找节点source邻居中最远的节点
             for (size_t i = 1; i < neighbors.size(); ++i)
             {
                 float curd = dist_cls_->Evaluate((float *)&source->GetData()[0], (float *)&neighbors[i]->GetData()[0], dim, TmpRes);
@@ -736,7 +631,6 @@ namespace n2
                     maxi = i;
                 }
             }
-            //删除邻居中最远的节点
             neighbors.erase(neighbors.begin() + maxi);
         }
         else
@@ -1016,27 +910,6 @@ namespace n2
             throw std::runtime_error("[Error] Invalid dimension data inserted: " + to_string(data.size()) + ", Predefined dimension: " + to_string(data_dim_));
         }
 
-        // std::vector<std::string> attributes = {"浙江","北京","四川","杭州"};
-        // std::vector<std::string> attribute;
-        // std::vector<int> alreadyId;
-
-        // int s = attributes_.size();
-        // for(int i=0;i<attribute_number_;i++){
-        //     int id;
-        //     bool flog = true;
-        //     while(flog){
-        //         flog = false;
-        //         id = rand() % attributes.size();
-        //         for(int j=0;j<alreadyId.size();j++){
-        //             if(id == alreadyId[j]){
-        //                 flog = true;
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     alreadyId.push_back(id);
-        //     attributes_[s].push_back(attributes[id]);
-        // }
         if (metric_ == DistanceKind::ANGULAR)
         {
             vector<float> data_copy(data);
@@ -1065,7 +938,6 @@ namespace n2
         dh.push(cur_dist, cur_node_id);
         float PORTABLE_ALIGN32 TmpRes[8];
 
-        // 小顶堆
         typedef typename MinHeap<float, int>::Item QueueItem;
         std::queue<QueueItem> q;
         search_list_->Reset();
@@ -1096,28 +968,21 @@ namespace n2
         {
             e = dh.top();
             dh.pop();
-            // 进点的id
             cur_node_id = e.data;
 
             visited_nodes.emplace(e.key, e.data);
-
-            // 最大的距离
+            
             float topKey = maxKey;
 
-            // 进点的近邻的起始地址
             int *data = (int *)(model_level0_ + cur_node_id * memory_per_node_level0_ + sizeof(int));
-            // 进点的邻居数
             int size = *data;
-            // 将所有离查询点的距离小于topKey的点存入q
             for (int j = 1; j <= size; ++j)
             {
-                // 进点的第j个近邻的id
                 tnum = *(data + j);
                 _mm_prefetch(dist_cls_, _MM_HINT_T0);
                 if (visited[tnum] != mark)
                 {
                     visited[tnum] = mark;
-                    // 进点的第j个近邻离查询点的距离
                     d = dist_cls_->Evaluate(qraw, (float *)(model_level0_ + tnum * memory_per_node_level0_ + memory_per_link_level0_), data_dim_, TmpRes);
                     if (d < topKey || total_size < ef_search)
                     {
@@ -1189,11 +1054,8 @@ namespace n2
             ptr = GetValueAndIncPtr<long long>(ptr, memory_per_node_level0_);
             ptr = GetValueAndIncPtr<long long>(ptr, level0_offset_);
             ptr = GetValueAndIncPtr<int>(ptr, attribute_number_);
-            //0层所有节点占的内存的大小
             long long level0_size = memory_per_node_level0_ * num_nodes_;
-            //以上15个参数（起始地址为model）占的内存的大小
             long long model_config_size = GetModelConfigSize();
-            //0层的起始地址
             model_level0_ = model_ + model_config_size;
             return true;
         }
@@ -1248,7 +1110,6 @@ namespace n2
         _mm_prefetch(&dist_cls_, _MM_HINT_T0);
         float PORTABLE_ALIGN32 TmpRes[8];
         const float *qraw = nullptr;
-        // 属性id
         if (ef_search < 0)
         {
             ef_search = 400;
@@ -1258,13 +1119,10 @@ namespace n2
         {
             NormalizeVector(qvec_copy);
         }
-        // 查询点向量
         qraw = &qvec_copy[0];
         _mm_prefetch(&dist_cls_, _MM_HINT_T0);
         // int maxlevel = maxlevel_;
-        // 当前离查询最近的点的id
         int cur_node_id = enterpoint_id_;
-        // 当前离查询最近点的距离
         float cur_dist = dist_cls_->Evaluate(qraw, (float *)(model_level0_ + cur_node_id * memory_per_node_level0_ + memory_per_link_level0_), data_dim_, TmpRes);
         float d2 = 0;
         for (int i = 0; i < attribute.size(); i++)
@@ -1282,10 +1140,8 @@ namespace n2
         //    d2++;
         //cur_dist = cur_dist * d2 * 2 / (cur_dist + d2);
 
-        // 节点比较次数
         int nub = 1;
 
-        // 小顶堆
         typedef typename MinHeap<float, int>::Item QueueItem;
         std::queue<QueueItem> q;
         search_list_->Reset();
@@ -1322,20 +1178,16 @@ namespace n2
 
         while (dh.size() > 0 && visited_nodes.size() < (ef_search >> 1))
         {
-            // 候选列表中离插入节点最近的CloserFirst<节点，距离>
             e = dh.top();
             dh.pop();
             cur_node_id = e.data;
             visited_nodes.emplace(e.key, e.data);
             float topKey = maxKey;
-            // 进点在0层的地址
             char *level_offset = model_level0_ + cur_node_id * memory_per_node_level0_;
-            // 近点的i层的地址
             char *data = level_offset;
             int size = *((int *)data);
             for (int j = 1; j <= size; ++j)
             {
-                // 第j个近邻的id
                 tnum = *((int *)(data + j * sizeof(int)));
                 _mm_prefetch(dist_cls_, _MM_HINT_T0);
                 if (visited[tnum] != mark)
@@ -1383,7 +1235,6 @@ namespace n2
         //     res.pop();
         // }
 
-        //std::cout << "比较了： " << nub << "次" << endl;
 
         vector<pair<float, int>> res_t;
         while (dh.size() && res_t.size() < k)
@@ -1433,10 +1284,9 @@ namespace n2
         std::vector<char> attribute = Attribute2int(attributes);
         if (attribute.size() != attribute_number_)
         {
-            std::cout << "错误的属性";
+            std::cout << "wrong attributes";
             return 0;
         }
-        // 属性id
         if (ef_search < 0)
         {
             ef_search = 400;
@@ -1446,13 +1296,10 @@ namespace n2
         {
             NormalizeVector(qvec_copy);
         }
-        // 查询点向量
         qraw = &qvec_copy[0];
         _mm_prefetch(&dist_cls_, _MM_HINT_T0);
         // int maxlevel = maxlevel_;
-        // 当前离查询最近的点的id
         int cur_node_id = enterpoint_id_;
-        // 当前离查询最近点的距离
         float cur_dist = dist_cls_->Evaluate(qraw, (float *)(model_level0_ + cur_node_id * memory_per_node_level0_ + memory_per_link_level0_), data_dim_, TmpRes);
         float d2 = 0;
         for (int i = 0; i < attribute.size(); i++)
@@ -1469,11 +1316,8 @@ namespace n2
         //if (d2 == 0)
         //    d2++;
         //cur_dist = cur_dist * d2 * 2 / (cur_dist + d2);
-
-        // 节点比较次数
         int nub = 1;
 
-        // 小顶堆
         typedef typename MinHeap<float, int>::Item QueueItem;
         std::queue<QueueItem> q;
         search_list_->Reset();
@@ -1510,20 +1354,16 @@ namespace n2
 
         while (dh.size() > 0 && visited_nodes.size() < (ef_search >> 1))
         {
-            // 候选列表中离插入节点最近的CloserFirst<节点，距离>
             e = dh.top();
             dh.pop();
             cur_node_id = e.data;
             visited_nodes.emplace(e.key, e.data);
             float topKey = maxKey;
-            // 进点在0层的地址
             char *level_offset = model_level0_ + cur_node_id * memory_per_node_level0_;
-            // 近点的i层的地址
             char *data = level_offset;
             int size = *((int *)data);
             for (int j = 1; j <= size; ++j)
             {
-                // 第j个近邻的id
                 tnum = *((int *)(data + j * sizeof(int)));
                 _mm_prefetch(dist_cls_, _MM_HINT_T0);
                 if (visited[tnum] != mark)
@@ -1571,7 +1411,6 @@ namespace n2
         //     res.pop();
         // }
 
-        //std::cout << "比较了： " << nub << "次" << endl;
 
         vector<pair<float, int>> res_t;
         while (dh.size() && res_t.size() < k)
@@ -1619,13 +1458,12 @@ namespace n2
         std::vector<char> attribute = Attribute2int(attributes);
         if (attribute.size() != attribute_number_)
         {
-            std::cout << "错误的属性";
+            std::cout << "wrong attributes";
             return;
         }
 
         // priority_queue<CloserFirstNew> candidates;
         priority_queue<FurtherFirstNew> res;
-        // 属性id
 
         if (ef_search < 0)
         {
@@ -1636,13 +1474,10 @@ namespace n2
         {
             NormalizeVector(qvec_copy);
         }
-        // 查询点向量
         qraw = &qvec_copy[0];
         _mm_prefetch(&dist_cls_, _MM_HINT_T0);
         // int maxlevel = maxlevel_;
-        // 当前离查询最近的点的id
         int cur_node_id = enterpoint_id_;
-        // 当前离查询最近点的距离
         float cur_dist;
 
         float d;
@@ -1693,7 +1528,6 @@ namespace n2
         SearchById_(id, 0.0, (const float *)(model_level0_ + id * memory_per_node_level0_ + memory_per_link_level0_), k, ef_search, result);
     }
 
-    // 返回15个参数所占的内存
     size_t Hnsw::GetModelConfigSize()
     {
         size_t ret = 0;

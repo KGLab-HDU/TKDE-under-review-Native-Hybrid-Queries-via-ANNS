@@ -1,8 +1,4 @@
-//
-// Copyright (c) 2017 ZJULearning. All rights reserved.
-// Modified by WMZ on 2020/6/16.
-// This source code is licensed under the MIT license.
-//
+
 
 #include <efanna2e/index_graph.h>
 #include <efanna2e/exceptions.h>
@@ -938,7 +934,7 @@ namespace efanna2e
       else
         ++k;
     }
-    // for (size_t i = 0; i < L; i++) {  //重置候选集中的点为未访问
+    // for (size_t i = 0; i < L; i++) {  
     //   retset[i].flag = true;
     // }
     k = 0;

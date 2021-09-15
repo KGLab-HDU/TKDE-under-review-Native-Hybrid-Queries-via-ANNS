@@ -1,8 +1,3 @@
-//
-// Copyright (c) 2017 ZJULearning. All rights reserved.
-// Modified by WMZ on 2020/6/16.
-// This source code is licensed under the MIT license.
-//
 
 #include <efanna2e/index_random.h>
 

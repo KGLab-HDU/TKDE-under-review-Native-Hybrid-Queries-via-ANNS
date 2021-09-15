@@ -1,8 +1,3 @@
-//
-// Copyright (c) 2017 ZJULearning. All rights reserved.
-//
-// This source code is licensed under the MIT license.
-//
 
 #ifndef EFANNA2E_INDEX_KDTREE_H
 #define EFANNA2E_INDEX_KDTREE_H

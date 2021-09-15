@@ -37,11 +37,9 @@ public:
     size_t maxsize_;
     // size_t maxsize0_;
     int attributes_number_;
-    //存放近邻的链表
     std::vector<HnswNode*> friends_;
     //std::map<int,std::vector<HnswNode*>> friends_at_attribute_id_;
     std::vector<char> attributes_;
-    //存放所有的属性id
     //std::vector<int> attributes_id_;
     
     std::mutex access_guard_;

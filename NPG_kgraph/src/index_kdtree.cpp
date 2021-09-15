@@ -1,8 +1,4 @@
-//
-// Copyright (c) 2017 ZJULearning. All rights reserved.
-//
-// This source code is licensed under the MIT license.
-//
+
 
 #include <efanna2e/index_kdtree.h>
 #include <efanna2e/exceptions.h>

@@ -66,7 +66,7 @@ inline void load_data(char *filename, std::vector<std::vector<float>> &res, unsi
 }
 
 inline void load_result_data(char *filename, std::vector<std::vector<unsigned>> &res, unsigned &num, unsigned &dim)
-{ // 载入ground_truth.ivecs
+{
     unsigned *data = nullptr;
     std::ifstream in(filename, std::ios::binary);
     if (!in.is_open())
@@ -153,7 +153,7 @@ void load_data_txt(char *filename, unsigned &num, unsigned &dim, std::vector<std
         SplitString(temp, data[groundtruth_count], " ");
         groundtruth_count++;
     }
-    std::cout << "读入" << data.size() << "条数据" << std::endl;
+    std::cout << "load " << data.size() << " data" << std::endl;
     file.close();
 }
 
@@ -200,10 +200,10 @@ int main(int argc, char **argv)
     //int n_threads = 10;
     std::vector<std::pair<std::string, std::string>> configs = {{"NumThread", "1"}};
     index.SetConfigs(configs);
-    std::cout << "属性设置" << std::endl;
+    std::cout << "set config" << std::endl;
 
-    // 测试代码
-    unsigned Search_K = 10; //搜索返回查询点的最近邻个数
+
+    unsigned Search_K = 10; 
     unsigned candidate = 500;
     int ef_search = 100;
     std::cout << "ef_search: " << ef_search << std::endl;

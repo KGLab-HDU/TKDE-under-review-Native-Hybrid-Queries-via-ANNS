@@ -36,7 +36,7 @@ namespace efanna2e
                              cnt++;
                            }
                          }
-                         dist += dist * cnt / (float)attribute_number_;
+                         fusion_distance(dist, cnt);
 
                          graph_[i].insert(j, dist);
                          graph_[j].insert(i, dist);
@@ -228,7 +228,7 @@ namespace efanna2e
       {
         cnt += (float)(attributes_code[k].size() - 1) / (float)(attributes_code[k].size());
       }
-      dist += dist * cnt / attribute_number_;
+      fusion_distance(dist, cnt);
 
       retset[i] = Neighbor(id, dist, true);
       flags[id] = 1;
@@ -261,7 +261,7 @@ namespace efanna2e
           {
             cnt += (float)(attributes_code[k].size() - 1) / (float)(attributes_code[k].size());
           }
-          dist += dist * cnt / attribute_number_;
+          fusion_distance(dist, cnt);
 
           Neighbor nn(id, dist, true);
           fullset.push_back(nn);
@@ -316,7 +316,7 @@ namespace efanna2e
             cnt++;
           }
         }
-        dist += dist * cnt / (float)attribute_number_;
+        fusion_distance(dist, cnt);
 
         pool.push_back(Neighbor(nnid, dist, true));
         if (pool.size() >= ML)
@@ -440,7 +440,7 @@ namespace efanna2e
             cnt++;
           }
         }
-        djk += djk * cnt / (float)attribute_number_;
+        fusion_distance(djk, cnt);
 
         // float cos_ij = (p.distance + result[t].distance - djk) / 2 /
         //                sqrt(p.distance * result[t].distance);
@@ -532,7 +532,7 @@ namespace efanna2e
                 cnt++;
               }
             }
-            djk += djk * cnt / (float)attribute_number_;
+            fusion_distance(djk, cnt);
 
             if (djk < p.distance)
             {
@@ -678,7 +678,7 @@ namespace efanna2e
             cnt++;
           }
         }
-        dist += dist * cnt / (float)attribute_number_;
+        fusion_distance(djk, cnt);
 
         tmp.push_back(Neighbor(j, dist, true));
       }
@@ -750,7 +750,7 @@ namespace efanna2e
             cnt++;
           }
         }
-        dist += dist * cnt / (float)attribute_number_;
+        fusion_distance(dist, cnt);
 
         graph_[i].pool.push_back(Neighbor(id, dist, true));
       }
@@ -795,7 +795,7 @@ namespace efanna2e
             cnt++;
           }
         }
-        dist += dist * cnt / (float)attribute_number_;
+        fusion_distance(dist, cnt);
 
         graph_[i].pool.push_back(Neighbor(id, dist, true));
       }
@@ -1096,7 +1096,7 @@ namespace efanna2e
           cnt++;
         }
       }
-      dist += dist * cnt / (float)attribute_number_;
+      fusion_distance(dist, cnt);
 
       retset[i] = Neighbor(id, dist, true);
     }
@@ -1128,7 +1128,7 @@ namespace efanna2e
               cnt++;
             }
           }
-          dist += dist * cnt / (float)attribute_number_;
+          fusion_distance(dist, cnt);
 
           if (dist >= retset[L - 1].distance)
             continue;
@@ -1881,5 +1881,16 @@ namespace efanna2e
       std::cout << std::endl;
     }
     return true;
+  }
+
+  void IndexGraph::fusion_distance(float &dist, float &cnt)
+  {
+    // dist = cnt * dist * 2 / (cnt + dist); //w_x=cnt/(dist + cnt), w_y=dist/(dist + cnt)
+    // cnt *= 100; // w_x=cnt*/(dist + cnt*), w_y=dist/(dist + cnt*)
+    // if(cnt == 0) cnt = 1;
+    // dist = cnt * dist * 2/(cnt + dist);
+    // dist = dist / 521675 + float(cnt) / 3.0;  // w_x=1/dist_max, w_y=1/cnt_max
+    dist += dist * cnt / (float)attribute_number_;  //w_x=1, w_y=dist/cnt_max
+    // dist += 10000 * cnt; //w_x/w_y=c, and c is a constant
   }
 }

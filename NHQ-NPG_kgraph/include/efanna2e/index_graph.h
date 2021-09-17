@@ -225,6 +225,7 @@ namespace efanna2e
     void get_neighbors(const float *query, const Parameters &parameter,
                        std::vector<Neighbor> &retset,
                        std::vector<Neighbor> &fullset);
+    void fusion_distance(float &dist, float &cnt);
     unsigned width;
     std::vector<unsigned> eps_;
 

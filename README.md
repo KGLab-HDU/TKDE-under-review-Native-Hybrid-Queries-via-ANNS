@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-Hybrid query is an advance query processing that adds label constraint on the basis of vector similarity search; this pressing need is fueled by massive amount of emerging applications such as visual product search, academic expert finding, movie recommendation, etc. Our paper entitled "Naviagable Proximity Graph-driven Native Hybrid Query for Structured and Unstructured Data" povides a Native Hybrid Query (NHQ) solution outperforms the state-of-the-art competitors (10x faster under the same recall) on all experimental datasets.
+Hybrid query is an advance query processing that adds label constraint on the basis of vector similarity search [[SIGMOD'20](https://dl.acm.org/doi/abs/10.1145/3318464.3386131), [VLDB'20](https://dl.acm.org/doi/10.14778/3415478.3415541), [SIGMOD'21](https://dl.acm.org/doi/10.1145/3448016.3457550), [KDD'21](https://dl.acm.org/doi/abs/10.1145/3447548.3470811)]; this pressing need is fueled by massive amount of emerging applications such as visual product search [[VLDB'20](https://dl.acm.org/doi/10.14778/3415478.3415541), [SIGMOD'21](https://dl.acm.org/doi/10.1145/3448016.3457550), [Middleware'18](https://dl.acm.org/doi/10.1145/3284028.3284030)], academic expert finding, movie recommendation, etc. Our paper entitled "Naviagable Proximity Graph-driven Native Hybrid Query for Structured and Unstructured Data" povides a Native Hybrid Query (NHQ) solution outperforms the state-of-the-art competitors (10x faster under the same recall) on all experimental datasets.
 
 This repo contains the code, dataset, optimal parameters, and other detailed information used for the experiments of our paper.
 
@@ -32,7 +32,7 @@ The compared methods include two categories: one is to verify the effectiveness 
 
 ## 3. Datasets
 
-Our experiment involves eight publicly available real-world datasets and one in-house dataset. Among them, the eight public datasets are composed of high-dimensional feature vectors extracted from the unstructured data, and they do not originally contain structured labels; at this time, they are used for the performance evaluation of PG algorithms. There is no publicly available dataset thus far that contains both structured and unstructured data. Therefore, we generate corresponding label combinations for each object in public datasets following []. For example, we add labels such as <u>*date*</u>, <u>*location*</u>, <u>*size*</u>, etc. to each image on SIFT1M to form an object dataset with structured and unstructured parts. For the in-house dataset, each object in it consisting of high-dimensional vector extracted from paper content as well as three structured attributes, i.e., <u>*affiliation*</u>, <u>*topic*</u>, <u>*publication*</u>. The following table summarizes their main information.
+Our experiment involves eight publicly available real-world datasets and one in-house dataset. Among them, the eight public datasets are composed of high-dimensional feature vectors extracted from the unstructured data, and they do not originally contain structured labels; at this time, they are used for the performance evaluation of PG algorithms. There is no publicly available dataset thus far that contains both structured and unstructured data [[VLDB'20](https://dl.acm.org/doi/10.14778/3415478.3415541)]. Therefore, we generate corresponding label combinations for each object in public datasets following [[SIGMOD'21](https://dl.acm.org/doi/10.1145/3448016.3457550)]. For example, we add labels such as <u>*date*</u>, <u>*location*</u>, <u>*size*</u>, etc. to each image on SIFT1M to form an object dataset with structured and unstructured parts. For the in-house dataset, each object in it consisting of high-dimensional vector extracted from paper content as well as three structured attributes, i.e., <u>*affiliation*</u>, <u>*topic*</u>, <u>*publication*</u>. The following table summarizes their main information.
 
 |           | base_num | base_dim | query_num | type        | download(vector)                                             | download (label)       |
 | --------- | -------- | -------- | --------- | ----------- | ------------------------------------------------------------ | ---------------------- |
@@ -52,13 +52,71 @@ Note that, all base data and query data are converted to `fvecs` format, and gro
 
 Because parameters' adjustment in the entire base dataset may cause overfitting, we randomly sample a certain percentage of data points from the base dataset to form a validation dataset. We search for the optimal value of all the adjustable parameters of each algorithm on each validation dataset, to make the algorithms' search performance reach the optimal level. See the [parameters](parameters) page for more information.
 
-## 6. Installation and Usage
+## 5. Installation and Usage
 
+**Prerequistes**
 
+```
+GCC 4.9+ wih OpenMP
+CMake 2.8+
+Boost 1.55+
+```
 
-## 7. Acknowledgements
+**Installation**
 
+You can run the `build.sh` script to install all algorithms, including NPG_kgraph, NPG_nsw, NHQ-NPG_kgraph and NHQ-NPG_nsw.
 
+**Usage**
 
+After performing the installation, you can test each algorithm via the script `test_hybrid_query.py` or `test_npg.py`, and the specific parameter values can be found in [parameters](parameters).
 
+**Validation of NHQ framework**
 
+To verify the capabilities of NHQ, we additionally implement the hybrid query based on the first vector search and then label filtering across NPG_kgraph and NPG_nsw. Thus, for hybrid query on NHQ, you can test it by setting the following options in the script `test_hybrid_query.py`:
+
+```
+<index>: 'NHQ-NPG_kgraph' or 'NHQ-NPG_nsw'	# build and search
+```
+
+For the first vector search then label filtering, you can test it by setting the following options in `test_hybrid_query.py`:
+
+```
+<index>: 'NPG_kgraph' or 'NPG_nsw'	# build and search
+```
+
+**Performance of NPG**
+
+To verify the effectiveness of the proposed edge selection and routing strategies, you can evaluate NPG algorithms (i.e., NPG_kgraph and NPG_nsw) by setting the following options in `test_npg.py`:
+
+```
+<index>: 'NPG_kgraph' or 'NPG_nsw'	# build and search
+```
+
+**Evaluation of Hybrid Query Methods**
+
+You can test it by setting the following options in the script `test_hybrid_query.py`:
+
+```
+<index>: 'NHQ-NPG_kgraph' or 'NHQ-NPG_nsw'	# build and search
+```
+
+**Parameter Sensitivity**
+
+For NHQ, $\omega _{x}$​ and $\omega _{y}$​ in Equation 5 of our paper are a pair of parameters that regulate the weights of $\delta$​ and $\chi$​, where $\delta$​ is the distance between unstructured data, and $\chi$​ is the distance between structured data. Thus, $\omega _{x}$​ and $\omega _{y}$​ will impact the hybrid query performance. You can set different $\omega _{x}$​ and $\omega _{y}$​​ by modify the following code in `/NHQ-NPG_kgraph/src/index_graph.cpp`.
+
+```c++
+  void IndexGraph::fusion_distance(float &dist, float &cnt)
+  {
+    // dist = cnt * dist * 2 / (cnt + dist); //w_x=cnt/(dist + cnt), w_y=dist/(dist + cnt)
+    // cnt *= 100; // w_x=cnt*/(dist + cnt*), w_y=dist/(dist + cnt*)
+    // if(cnt == 0) cnt = 1;
+    // dist = cnt * dist * 2/(cnt + dist);
+    // dist = dist / 521675 + float(cnt) / 3.0;  // w_x=1/dist_max, w_y=1/cnt_max
+    dist += dist * cnt / (float)attribute_number_;  //w_x=1, w_y=dist/cnt_max
+    // dist += 10000 * cnt; //w_x/w_y=c, and c is a constant
+  }
+```
+
+## 6. Acknowledgements
+
+The implementation of NPG_kgraph is taken from [kgraph](https://github.com/aaalgo/kgraph), [ssg](https://github.com/ZJULearning/ssg), [nns_benchmark](https://github.com/DBAIWangGroup/nns_benchmark/tree/master/algorithms/DPG), and the implementation of NPG_nsw is taken from [n2](https://github.com/kakao/n2). Many thanks to them for inspiration. Thanks to everyone who provided references for this project.

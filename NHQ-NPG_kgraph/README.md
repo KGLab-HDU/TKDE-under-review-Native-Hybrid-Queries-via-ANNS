@@ -1,6 +1,8 @@
 # NHQ-NPG_kgraph
 
-Go to the root directory of NHQ-NPG_kgraph and make.    
+## Compile
+
+Go to the root directory of NHQ-NPG_kgraph and run the following scripts.    
 
 ```shell
 cd NHQ-NPG_kgraph/

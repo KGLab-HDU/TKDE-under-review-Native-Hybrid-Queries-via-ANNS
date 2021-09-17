@@ -32,17 +32,31 @@ The compared methods include two categories: one is to verify the effectiveness 
 
 ## 3. Datasets
 
+Our experiment involves eight publicly available real-world datasets and one in-house dataset. Among them, the eight public datasets are composed of high-dimensional feature vectors extracted from the unstructured data, and they do not originally contain structured labels; at this time, they are used for the performance evaluation of PG algorithms. There is no publicly available dataset thus far that contains both structured and unstructured data. Therefore, we generate corresponding label combinations for each object in public datasets following []. For example, we add labels such as <date>, <location>, <size>, etc. to each image on SIFT1M to form an object dataset with structured and unstructured parts. For the in-house dataset, each object in it consisting of high-dimensional vector extracted from paper content as well as three structured attributes, i.e., <affiliation>, <topic>, <publication>. The following table summarizes their main information.
 
+|           | base_num | base_dim | query_num | type        | download(vector)                                             | download (label)       |
+| --------- | -------- | -------- | --------- | ----------- | ------------------------------------------------------------ | ---------------------- |
+| Sift1M    | 1000000  | 128      | 10000     | Image+Label | [sift.tar.gz](http://corpus-texmex.irisa.fr/)(161MB)         | sift_label.tar.gz      |
+| Gist      | 1000000  | 960      | 1000      | Image+Label | [gist.tar.gz](http://corpus-texmex.irisa.fr/)(2.6GB)         | gist_label.tar.gz      |
+| Glove-100 | 1183514  | 100      | 10000     | Text+Label  | [glove-100.tar.gz](http://downloads.zjulearning.org.cn/data/glove-100.tar.gz)(424MB) | glove-100_label.tar.gz |
+| Crawl     | 1989995  | 300      | 10000     | Text+Label  | [crawl.tar.gz](http://downloads.zjulearning.org.cn/data/crawl.tar.gz)(1.7GB) | crawl_label.tar.gz     |
+| Audio     | 53387    | 192      | 200       | Audio+Label | [audio.tar.gz](https://drive.google.com/file/d/1fJvLMXZ8_rTrnzivvOXiy_iP91vDyQhs/view)(26MB) | audio_label.tar.gz     |
+| Msong     | 992272   | 420      | 200       | Audio+Label | [msong.tar.gz](https://drive.google.com/file/d/1UZ0T-nio8i2V8HetAx4-kt_FMK-GphHj/view)(1.4GB) | msong_label.tar.gz     |
+| Enron     | 94987    | 1369     | 200       | Text+Label  | [enron.tar.gz](https://drive.google.com/file/d/1TqV43kzuNYgAYXvXTKsAG1-ZKtcaYsmr/view)(51MB) | enron_label.tar.gz     |
+| UQ-V      | 1000000  | 256      | 10000     | Video+Label | [uqv.tar.gz](https://drive.google.com/file/d/1HIdQSKGh7cfC7TnRvrA2dnkHBNkVHGsF/view?usp=sharing)(800MB) | uqv_label.tar.gz       |
+| Paper     | 2029997  | 200      | 10000     | Text+Label  | [paper.tar.gz](https://drive.google.com/file/d/1t4b93_1Viuudzd5D3I6_9_9Guwm1vmTn/view)(1.41GB) | paper_label.tar.gz     |
+
+Note that, all base data and query data are converted to `fvecs` format, and groundtruth data is converted to `ivecs` format. Please refer [here](http://yael.gforge.inria.fr/file_format.html) for the description of `fvecs` and `ivecs` format.
 
 ## 4. Parameters
 
+Because parameters' adjustment in the entire base dataset may cause overfitting, we randomly sample a certain percentage of data points from the base dataset to form a validation dataset. We search for the optimal value of all the adjustable parameters of each algorithm on each validation dataset, to make the algorithms' search performance reach the optimal level. See the [parameters](parameters) page for more information.
+
+## 6. Installation and Usage
 
 
-## 5. Usage
 
-
-
-## 6. Acknowledgements
+## 7. Acknowledgements
 
 
 

@@ -1,6 +1,6 @@
 # NPG_nsw
 
-## Build  
+## Compile on Linux  
 
 ```shell
 cd NPG_nsw/n2/

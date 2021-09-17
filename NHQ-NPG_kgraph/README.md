@@ -1,6 +1,6 @@
 # NHQ-NPG_kgraph
 
-## Compile
+## Compile on Linux
 
 Go to the root directory of NHQ-NPG_kgraph and run the following scripts.    
 

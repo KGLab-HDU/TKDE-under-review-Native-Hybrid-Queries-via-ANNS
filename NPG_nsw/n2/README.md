@@ -19,7 +19,7 @@ cd NPG_nsw/n2/examples/cpp/
 Then: 
 
 ```shell
-./index data_file save_graph Max_M0 efConstruction
+./index data_file save_graph MaxM0 efConstruction
 ```
 
 Meaning of the parameters:    
@@ -27,7 +27,7 @@ Meaning of the parameters:
 ```
 <data_file> is the path of the origin data.
 <save_graph> is the path of the NPG_nsw to be saved.
-<Max_M0> is the 'K' of kNN graph.
+<MaxM0> is the 'K' of kNN graph.
 <efConstruction> is the parameter contollling the graph quality, larger is more accurate but slower.
 ```
 

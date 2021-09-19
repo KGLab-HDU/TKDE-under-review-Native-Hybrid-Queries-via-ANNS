@@ -31,7 +31,7 @@ Meaning of the parameters:
 <save_graph> is the path of the NPG_kgraph to be saved.
 <K> is the 'K' of kNN graph.
 <L> is the parameter controlling the graph quality, larger is more accurate but slower, no smaller than K.
-<iter> is the parameter controlling the iteration times, iter usually < 30.
+<iter> is the parameter controlling the maximum iteration times, iter usually < 30.
 <S> is the parameter contollling the graph quality, larger is more accurate but slower.
 <R> is the parameter controlling the graph quality, larger is more accurate but slower.
 <RANGE> controls the index size of the graph, the best R is related to the intrinsic dimension of the dataset.

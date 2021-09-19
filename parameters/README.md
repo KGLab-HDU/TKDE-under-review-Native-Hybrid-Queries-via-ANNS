@@ -24,8 +24,8 @@ Please see [here](../NHQ-NPG_nsw/README.md) for more detailed meaning about thes
 
 |                | SIFT1M | GIST1M | GloVe | Crawl | Audio | Msong | Enron | UQ-V | Paper |
 | :------------: | :----: | :----: | :---: | :---: | :---: | :---: | :---: | :--: | :---: |
-|     maxm0      |   40   |   20   |  20   |  100  |  60   |  50   |  90   |  30  |  90   |
-| efconstruction |  100   |  200   |  900  |  500  |  800  |  900  |  900  | 300  |  400  |
+|     MaxM0      |   40   |   20   |  20   |  100  |  60   |  50   |  90   |  30  |  90   |
+| efConstruction |  100   |  200   |  900  |  500  |  800  |  900  |  900  | 300  |  400  |
 
 ## NPG_kgraph
 
@@ -34,9 +34,10 @@ Please see [here](../NPG_kgraph/README.md) for more detailed meaning about these
 |       | SIFT1M | GIST1M | GloVe | Crawl |
 | :---: | :----: | :----: | :---: | :---: |
 |   K   |  200   |  100   |  400  |  400  |
-| L_add |  220   |  130   |  420  |  400  |
+|   L   |  220   |  130   |  420  |  400  |
+| iter  |   12   |   12   |  12   |  12   |
 |   S   |   25   |   20   |  25   |  20   |
-| R_KG  |  200   |  300   |  300  |  200  |
+|   R   |  200   |  300   |  300  |  200  |
 | RANGE |   40   |   40   |  90   |  90   |
 |  PL   |   50   |  350   |  50   |  350  |
 |   B   |  1.0   |  1.0   |  0.8  |  1.0  |
@@ -48,8 +49,8 @@ Please see [here](../NPG_nsw/n2/README.md) for more detailed meaning about these
 
 |    dataset     | SIFT1M | GIST1M | GloVe | Crawl |
 | :------------: | :----: | :----: | :---: | :---: |
-|     maxm0      |   40   |   60   |  60   |  60   |
-| efconstruction |  300   |  300   |  700  |  300  |
+|     MaxM0      |   40   |   60   |  60   |  60   |
+| efConstruction |  300   |  300   |  700  |  300  |
 
 ## Weight_search
 

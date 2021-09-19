@@ -4,7 +4,7 @@ The following tables show the optimal parameters obtained by grid search on vali
 
 ## NHQ-NPG_kgraph
 
-Please see [here](../NHQ-NPG_kgraph/) for more detailed meaning about these parameters.
+Please see [here](../NHQ-NPG_kgraph/README.md) for more detailed meaning about these parameters.
 
 |       | SIFT1M | GIST1M | GloVe | Crawl | Audio | Msong | Enron | UQ-V | Paper |
 | :---: | :----: | :----: | :---: | :---: | :---: | :---: | :---: | :--: | :---: |
@@ -20,7 +20,7 @@ Please see [here](../NHQ-NPG_kgraph/) for more detailed meaning about these para
 
 ## NHQ-NPG_nsw
 
-Please see [here](../NHQ-NPG_nsw/) for more detailed meaning about these parameters.
+Please see [here](../NHQ-NPG_nsw/README.md) for more detailed meaning about these parameters.
 
 |                | SIFT1M | GIST1M | GloVe | Crawl | Audio | Msong | Enron | UQ-V | Paper |
 | :------------: | :----: | :----: | :---: | :---: | :---: | :---: | :---: | :--: | :---: |
@@ -29,7 +29,7 @@ Please see [here](../NHQ-NPG_nsw/) for more detailed meaning about these paramet
 
 ## NPG_kgraph
 
-Please see [here](../NPG_kgraph/) for more detailed meaning about these parameters.
+Please see [here](../NPG_kgraph/README.md) for more detailed meaning about these parameters.
 
 |       | SIFT1M | GIST1M | GloVe | Crawl |
 | :---: | :----: | :----: | :---: | :---: |
@@ -44,7 +44,7 @@ Please see [here](../NPG_kgraph/) for more detailed meaning about these paramete
 
 ## NPG_nsw
 
-Please see [here](../NPG_nsw/n2/) for more detailed meaning about these parameters.
+Please see [here](../NPG_nsw/n2/README.md) for more detailed meaning about these parameters.
 
 |    dataset     | SIFT1M | GIST1M | GloVe | Crawl |
 | :------------: | :----: | :----: | :---: | :---: |

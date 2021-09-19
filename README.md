@@ -50,7 +50,7 @@ Note that, all base data and query data are converted to `fvecs` format, and gro
 
 ## 4. Parameters
 
-Because parameters' adjustment in the entire base dataset may cause overfitting, we randomly sample a certain percentage of data points from the base dataset to form a validation dataset. We search for the optimal value of all the adjustable parameters of each algorithm on each validation dataset, to make the algorithms' search performance reach the optimal level. See the [parameters](parameters) page for more information.
+Because parameters' adjustment in the entire base dataset may cause overfitting, we randomly sample a certain percentage of data points from the base dataset to form a validation dataset. We search for the optimal value of all the adjustable parameters of each algorithm on each validation dataset, to make the algorithms' search performance reach the optimal level. See the [parameters](parameters/README.md) page for more information.
 
 ## 5. Installation and Usage
 
@@ -68,7 +68,7 @@ You can run the `build.sh` script to install all algorithms, including NPG_kgrap
 
 **Usage**
 
-After performing the installation, you can test each algorithm via the script `test_hybrid_query.py` or `test_npg.py`, and the specific parameter values can be found in [parameters](parameters).
+After performing the installation, you can test each algorithm via the script `test_hybrid_query.py` or `test_npg.py`, and the specific parameter values can be found in [parameters](parameters/README.md).
 
 **Validation of NHQ framework**
 

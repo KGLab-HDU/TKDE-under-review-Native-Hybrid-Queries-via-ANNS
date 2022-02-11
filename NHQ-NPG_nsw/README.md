@@ -25,8 +25,8 @@ Then:
 Meaning of the parameters:    
 
 ```
-<data_file> is the path of the origin data.
-<att_file> is the path of the corresponding structured labels of the origin data.
+<data_file> is the path of the original object set.
+<att_file> is the path of the corresponding structured attributes of the original objects.
 <save_graph> is the path of the NPG_kgraph to be saved.
 <save_attributetable> is the path of the attributes codes to be saved.
 <MaxM0> is the 'K' of kNN graph.
@@ -43,7 +43,7 @@ Meaning of the parameters:
 ```
 <graph_file> is the path of the pre-built NPG_kgraph.
 <attributetable_file> is the path of the attributes codes.
-<query_file> is the path of the query data.
+<query_file> is the path of the query object.
 <groundtruth_file> is the path of the groundtruth data.
-<attributes_query_file> is the path of the corresponding structured labels of the query data.
+<attributes_query_file> is the path of the corresponding structured attributes of the query object.
 ```

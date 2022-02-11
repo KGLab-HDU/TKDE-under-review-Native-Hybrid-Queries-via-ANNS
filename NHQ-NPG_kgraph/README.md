@@ -27,8 +27,8 @@ Then:
  Meaning of the parameters:    
 
 ```
-<data_file> is the path of the origin data.
-<att_file> is the path of the corresponding structured labels of the origin data.
+<data_file> is the path to the original object set.
+<att_file> is the path to the structured attributes of the original objects.
 <save_graph> is the path of the NHQ-NPG_kgraph to be saved.
 <save_attributetable> is the path of the attributes codes to be saved.
 <K> is the 'K' of kNN graph.
@@ -39,7 +39,7 @@ Then:
 <RANGE> controls the index size of the graph, the best R is related to the intrinsic dimension of the dataset.
 <PL> controls the quality of the NHQ-NPG_kgraph, the larger the better.
 <B> controls the quality of the NHQ-NPG_kgraph.
-<M> control the edge selection of NHQ-NPG_kgraph.
+<M> controls the edge selection of NHQ-NPG_kgraph.
 ```
 
 ## Search on NHQ-NPG_kgraph
@@ -52,8 +52,8 @@ Then:
 ```
 <graph_path> is the path of the pre-built NHQ-NPG_kgraph.
 <attributetable_path> is the path of the attributes codes.
-<data_path> is the path of the origin data.
-<query_path> is the path of the query data.
-<query_att_path> is the path of the corresponding structured labels of the query data.
+<data_path> is the path of the original object set.
+<query_path> is the path of the query object.
+<query_att_path> is the path of the corresponding structured attributes of the query object.
 <groundtruth_path> is the path of the groundtruth data.
 ```

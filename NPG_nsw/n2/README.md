@@ -25,10 +25,10 @@ Then:
 Meaning of the parameters:    
 
 ```
-<data_file> is the path of the origin data.
+<data_file> is the path of the original object set.
 <save_graph> is the path of the NPG_nsw to be saved.
 <MaxM0> is the 'K' of kNN graph.
-<efConstruction> is the parameter contollling the graph quality, larger is more accurate but slower.
+<efConstruction> is the parameter contolling the graph quality, larger is more accurate but slower.
 ```
 
 ### Search on NPG_nsw
@@ -40,10 +40,10 @@ Meaning of the parameters:
 
 ```
 <graph_path> is the path of the pre-built NPG_nsw.
-<query_file> is the path of the query data.
+<query_file> is the path of the query object.
 <groundtruth_file> is the path of the groundtruth data.
 ```
-### Hybrid Search on NPG_nsw (first vector search then label filtering)
+### Hybrid Queries on NPG_nsw ("first vector similarity search, then attribute filtering")
 ```shell
 ./hybrid_search graph_path data_path query_path base_att_path query_att_path groundtruth_path
 ```
@@ -52,10 +52,10 @@ Meaning of the parameters:
 
 ```
 <graph_path> is the path of the pre-built NPG_nsw.
-<data_path> is the path of the origin data.
-<query_path> is the path of the query data.
-<base_att_path> is the path of the corresponding structured labels of the origin data.
-<query_att_path> is the path of the corresponding structured labels of the query data.
+<data_path> is the path of the original object set.
+<query_path> is the path of the query object.
+<base_att_path> is the path of the corresponding structured attributes of the original objects.
+<query_att_path> is the path of the corresponding structured attributes of the query object.
 <groundtruth_path> is the path of the groundtruth data.
 ```
 

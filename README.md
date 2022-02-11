@@ -22,12 +22,12 @@ The compared methods include two categories: one is to verify the effectiveness 
 
 **Hybrid query methods**
 
-* *ADBV* ([VLDB'2020](https://dl.acm.org/doi/10.14778/3415478.3415541)) is a cost-based hybrid query method proposed by Alibaba. It implements PQ and linear scan for vector search, thus forming four sub-plans; and the least cost one is selected for hybrid query.
-* *Milvus* ([SIGMOD'2021](https://dl.acm.org/doi/10.1145/3448016.3457550)) adopts a partition-based approach regarding label; it divides the object dataset through frequently used labels, and deploys ADBV on each subset.
-* *Vearch* ([Middleware'2018](https://dl.acm.org/doi/10.1145/3284028.3284030)) is a repo developed by Jingdong. It first recalls similar candidates with unstructured constraint on HNSW, and then performs label filtering on the candidates to yield the final results.
+* *ADBV* ([VLDB'2020](https://dl.acm.org/doi/10.14778/3415478.3415541)) is a cost-based hybrid query method proposed by Alibaba. It implements PQ and linear scan for vector similarity search, thus forming four sub-plans; and the least cost one is selected for answering a hybrid query.
+* *Milvus* ([SIGMOD'2021](https://dl.acm.org/doi/10.1145/3448016.3457550)) adopts a partition-based approach regarding attribute; it divides the object set through frequently used attributes, and deploys ADBV on each subset.
+* *Vearch* ([Middleware'2018](https://dl.acm.org/doi/10.1145/3284028.3284030)) is a repo developed by Jingdong. It first recalls similar candidates with unstructured constraint on HNSW, and then performs attribute filtering on the candidates to yield the final results.
 * *NGT* ([SISAP'2016](https://link.springer.com/chapter/10.1007/978-3-319-46759-7_2)) is a library for performing high-speed ANNS released by Yahoo Japan. We implemented the hybrid query processing that conducts attribute filtering atop the candidates recalled by NGT.
-* *Faiss* (IVFPQ, [TPAMI'2011](https://ieeexplore.ieee.org/abstract/document/5432202)) is popular quantization-based vector search library developed by Facebook. We deploy its hybrid query based on IVFPQ and strategy A (Fig2 in our paper).
-* *SPTAG* ([ACM MM'2012](https://dl.acm.org/doi/abs/10.1145/2393347.2393378), [CVPR'2012](https://ieeexplore.ieee.org/abstract/document/6247790), [TPAMI'2014](https://ieeexplore.ieee.org/abstract/document/6549106)) is a PG-based vector similarity search library released by Microsoft, and its hybrid query works on  strategy B (Fig2 in our paper).
+* *Faiss* (IVFPQ, [TPAMI'2011](https://ieeexplore.ieee.org/abstract/document/5432202)) is popular quantization-based vector similarity search library developed by Facebook. We implement its hybrid query processing based on IVFPQ and strategy A (Fig2 in our paper).
+* *SPTAG* ([ACM MM'2012](https://dl.acm.org/doi/abs/10.1145/2393347.2393378), [CVPR'2012](https://ieeexplore.ieee.org/abstract/document/6247790), [TPAMI'2014](https://ieeexplore.ieee.org/abstract/document/6549106)) is a PG-based vector similarity search library released by Microsoft, and it answers a hybrid query on strategy B (Fig2 in our paper).
 * *NHQ-NPG_nsw* and *NHQ-NPG_kgraph* is our hybrid query methods based on NHQ framework and two NPGs.
 
 ## 3. Datasets

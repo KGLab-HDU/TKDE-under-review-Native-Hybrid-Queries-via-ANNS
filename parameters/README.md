@@ -54,7 +54,7 @@ Please see [here](../NPG_nsw/n2/README.md) for more detailed meaning about these
 
 ## Weight_search
 
-When performing hybrid query, we set $\omega _{x}=1$ and $\omega _{y}=$weight_search as follows.
+When performing a hybrid query, we set $\omega _{x}=1$ and $\omega _{y}=$weight_search as follows.
 
 |               | SIFT1M | GIST1M | GloVe | Crawl | Audio | Msong | Enron  | UQ-V | Paper |
 | :-----------: | :----: | :----: | :---: | :---: | :---: | :---: | :----: | :--: | :---: |

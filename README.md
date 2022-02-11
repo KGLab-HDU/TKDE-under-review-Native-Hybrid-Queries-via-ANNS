@@ -46,11 +46,11 @@ Our experiment involves eight publicly available real-world datasets and one in-
 | UQ-V      | 1000000  | 256      | 10000     | Video+Attribute | [uqv.tar.gz](https://drive.google.com/file/d/1HIdQSKGh7cfC7TnRvrA2dnkHBNkVHGsF/view?usp=sharing)(800MB) | [uqv_attribute.tar.gz](https://drive.google.com/file/d/1YN6VuLPw_u9cFREXS6jgApYjCTmzmZtv/view) |
 | Paper     | 2029997  | 200      | 10000     | Text+Attribute  | [paper.tar.gz](https://drive.google.com/file/d/1t4b93_1Viuudzd5D3I6_9_9Guwm1vmTn/view)(1.41GB) | [paper_attribute.tar.gz](https://drive.google.com/file/d/1arpB0oZne3tmRCUfTfzQmIfvWVP_kuKY/view) |
 
-Note that, all base data and query data are converted to `fvecs` format, and groundtruth data is converted to `ivecs` format. Please refer [here](http://yael.gforge.inria.fr/file_format.html) for the description of `fvecs` and `ivecs` format.
+Note that, all original objects and query object are converted to `fvecs` format, and groundtruth data is converted to `ivecs` format. Please refer [here](http://yael.gforge.inria.fr/file_format.html) for the description of `fvecs` and `ivecs` format.
 
 ## 4. Parameters
 
-Because parameters' adjustment in the entire base dataset may cause overfitting, we randomly sample a certain percentage of data points from the base dataset to form a validation dataset. We search for the optimal value of all the adjustable parameters of each algorithm on each validation dataset, to make the algorithms' search performance reach the optimal level. See the [parameters](parameters/README.md) page for more information.
+Because parameters' adjustment in the entire object set may cause overfitting, we randomly sample a certain percentage of data points from the original object set to form a validation set. We search for the optimal value of all the adjustable parameters of each algorithm on each validation set, to make the algorithms' search performance reach the optimal level. See the [parameters](parameters/README.md) page for more information.
 
 ## 5. Installation and Usage
 
@@ -72,7 +72,7 @@ After performing the installation, you can test each algorithm via the script `t
 
 **Validation of NHQ framework**
 
-To verify the capabilities of NHQ, we implement the hybrid query additionally based on the first vector search and then label filtering across NPG_kgraph and NPG_nsw. Thus, for hybrid queries on NHQ, you can test it by setting the following options in the script `test_hybrid_query.py`:
+To verify the capabilities of NHQ, we implement the hybrid queries additionally based on the "first vector similarity search, and then attribute filtering" strategy across NPG_kgraph and NPG_nsw. Thus, for hybrid queries on NHQ, you can test it by setting the following options in the script `test_hybrid_query.py`:
 
 ```
 <index>: 'NHQ-NPG_kgraph' or 'NHQ-NPG_nsw'	# build and search
